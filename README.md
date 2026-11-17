@@ -73,6 +73,24 @@ dotnet ef database update --project EventRegistration.Api
 dotnet run --project EventRegistration.Api
 ```
 
+## Frontend
+
+The React frontend lives in `frontend/` (Vite, React 19, React Router 7, Tailwind CSS 4).
+
+Prerequisites: Node.js 20.19+ (or 22.12+).
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+The dev server runs at http://localhost:5173.
+
+- Start the API with the `http` profile so it listens on http://localhost:5122: `dotnet run --project EventRegistration.Api --launch-profile http` (from the solution folder).
+- The API base URL comes from `VITE_API_URL` in `frontend/.env.development` (default `http://localhost:5122`). `frontend/.env.example` documents the variable.
+- CORS: the API allows the origin `http://localhost:5173` through `Cors:AllowedOrigins` in `appsettings.Development.json`. Add the origin there if you run the frontend on another port.
+
 ## Notes
 
 - A registration is unique per event and email (unique index on `EventId` + `Email`).
