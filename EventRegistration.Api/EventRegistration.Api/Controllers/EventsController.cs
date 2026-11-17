@@ -1,6 +1,5 @@
 using EventRegistration.Api.Data;
 using EventRegistration.Api.Dtos;
-using EventRegistration.Api.Models;
 using EventRegistration.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +27,25 @@ public class EventsController(AppDbContext db, IRegistrationService registration
             .Select(e => new EventResponse(
                 e.Id, e.Name, e.StartDateTime, e.Location, e.Capacity, e.Registrations.Count))
             .ToListAsync();
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<EventDetailsResponse>> GetEvent(int id)
+    {
+        var ev = await db.Events
+            .AsNoTracking()
+            .Where(e => e.Id == id)
+            .Select(e => new EventDetailsResponse(
+                e.Id, e.Name, e.StartDateTime, e.Location, e.Capacity,
+                Math.Max(0, e.Capacity - e.Registrations.Count)))
+            .FirstOrDefaultAsync();
+
+        return ev is null ? NotFound(new ProblemDetails
+        {
+            Status = StatusCodes.Status404NotFound,
+            Title = "Event not found",
+            Detail = $"Event {id} was not found."
+        }) : ev;
     }
 
     [HttpPost("{id:int}/registrations")]
