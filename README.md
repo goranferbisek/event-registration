@@ -10,7 +10,7 @@ ASP.NET Core (.NET 10) Web API using EF Core with PostgreSQL.
 
 ## Setup
 
-Run all commands from the project folder (`EventRegistration.Api/EventRegistration.Api`).
+Run all `dotnet` commands from the solution folder (`EventRegistration.Api`, the one containing `EventRegistration.Api.slnx`). Because it holds a project subfolder, pass `--project EventRegistration.Api` to select the project.
 
 ### 1. Create the database role and database
 
@@ -35,32 +35,37 @@ The role needs no extra privileges. Owning the database is enough for EF Core to
 Do not commit a real password. Store it in user secrets instead:
 
 ```
-dotnet user-secrets init
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=eventregistration;Username=eventregistration;Password=yourpassword"
+dotnet user-secrets init --project EventRegistration.Api
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=eventregistration;Username=eventregistration;Password=yourpassword" --project EventRegistration.Api
 ```
 
 User secrets override `appsettings.Development.json` in the Development environment.
 
-### 3. Create and apply the database migration
+### 3. Apply the database migration
+
+The `InitialCreate` migration is already in the repository (`Migrations/`). Apply it to create the `Events` and `Registrations` tables in the `eventregistration` database:
 
 ```
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+dotnet ef database update --project EventRegistration.Api
 ```
 
-This creates the `Events` and `Registrations` tables in the `eventregistration` database.
+For reference, the initial migration was created with:
+
+```
+dotnet ef migrations add InitialCreate --project EventRegistration.Api
+```
 
 After changing the models, add a new migration and apply it:
 
 ```
-dotnet ef migrations add <MigrationName>
-dotnet ef database update
+dotnet ef migrations add <MigrationName> --project EventRegistration.Api
+dotnet ef database update --project EventRegistration.Api
 ```
 
 ### 4. Run the API
 
 ```
-dotnet run
+dotnet run --project EventRegistration.Api
 ```
 
 ## Notes
