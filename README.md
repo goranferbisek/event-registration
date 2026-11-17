@@ -73,6 +73,8 @@ dotnet ef database update --project EventRegistration.Api
 dotnet run --project EventRegistration.Api
 ```
 
+In Development, Swagger UI is available at http://localhost:5122/swagger (with the `http` profile). The raw OpenAPI document is at http://localhost:5122/openapi/v1.json.
+
 ## Frontend
 
 The React frontend lives in `frontend/` (Vite, React 19, React Router 7, Tailwind CSS 4).
