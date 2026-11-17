@@ -50,3 +50,29 @@ dotnet test
 
 ## Notes
 - `devPassword` is a development-only credential.
+
+## Unfinished tasks
+
+All requirements and constraints are covered.
+
+## Decisions
+
+- Layered backend (controllers, services, data/models) to separate HTTP handling, business logic and persistence. This gives a better structure and makes the business logic easier to test.
+- Docker Compose to run the app, so a new user only needs Docker.
+- PostgreSQL because I am familiar with it and its official Docker image is multi-architecture (amd64 and arm64), so it runs the same on Mac and PC.
+- Tailwind CSS for the frontend, using utility classes with no custom CSS, because it is simpler.
+- React Router for routing.
+- Swagger UI added for API documentation and manual testing.
+
+## Possible improvements
+
+- Add paging to the events list, as there could be hundreds of events in the database.
+
+## What was different between .NET and Java
+
+Java EE (now Jakarta EE) with Spring, and .NET with ASP.NET Core, are very similar.
+
+- **Language constructs:** both are statically typed, object-oriented languages with similar features.
+- **Annotations and attributes:** Java annotations and C# attributes work the same way and are used for the same things. For example `@RestController` / `@GetMapping` in Spring correspond to `[ApiController]` / `[HttpGet]` in ASP.NET Core.
+- **Dependency injection:** both use constructor injection, but components are registered differently. Spring discovers them through component scanning of annotated classes (`@Component`, `@Service`, `@Repository`), so registration is implicit. ASP.NET Core registers them explicitly in `Program.cs` (for example `AddScoped<IRegistrationService, RegistrationService>()`), where you also choose the lifetime (singleton, scoped or transient).
+- **Server:** traditionally, Java EE applications are packaged as a WAR and deployed to a separate application server such as WildFly or Tomcat. Spring Boot embeds the server (Tomcat by default), and ASP.NET Core does the same with Kestrel, so both apps start as a plain process.
