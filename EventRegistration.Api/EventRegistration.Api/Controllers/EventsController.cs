@@ -12,7 +12,7 @@ namespace EventRegistration.Api.Controllers;
 public class EventsController(AppDbContext db, IRegistrationService registrations) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<Event>>> GetEvents(
+    public async Task<ActionResult<List<EventResponse>>> GetEvents(
         [FromQuery] DateTimeOffset? from,
         [FromQuery] DateTimeOffset? to)
     {
@@ -23,7 +23,11 @@ public class EventsController(AppDbContext db, IRegistrationService registration
         if (from is not null) query = query.Where(e => e.StartDateTime >= from);
         if (to is not null) query = query.Where(e => e.StartDateTime <= to);
 
-        return await query.OrderBy(e => e.StartDateTime).ToListAsync();
+        return await query
+            .OrderBy(e => e.StartDateTime)
+            .Select(e => new EventResponse(
+                e.Id, e.Name, e.StartDateTime, e.Location, e.Capacity, e.Registrations.Count))
+            .ToListAsync();
     }
 
     [HttpPost("{id:int}/registrations")]
