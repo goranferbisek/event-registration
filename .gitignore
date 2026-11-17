@@ -1,0 +1,59 @@
+## .NET build output
+bin/
+obj/
+[Aa]rtifacts/
+[Pp]ublish/
+*.nupkg
+*.snupkg
+
+## NuGet
+project.lock.json
+project.fragment.lock.json
+*.nuget.props.user
+*.nuget.targets.user
+
+## Test results and coverage
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage*/
+
+## Logs and diagnostics
+*.binlog
+*.log
+*.tlog
+*.pidb
+*.svclog
+
+## Visual Studio / Rider per-user files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Secrets and local overrides
+secrets.json
+appsettings.Local.json
+*.pfx
+*.p12
+
+## JetBrains Rider
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/shelf/
+.idea/**/dictionaries/
+.idea/**/contentModel.xml
+.idea/**/aws.xml
+.idea/**/httpRequests/
+.idea/**/caches/
+.idea/**/indexLayout.xml
+*.DotSettings.user
+_ReSharper*/
+*.rsuser
+
+## macOS
+.DS_Store
