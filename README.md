@@ -43,11 +43,16 @@ User secrets override `appsettings.Development.json` in the Development environm
 
 ### 3. Apply the database migration
 
-The `InitialCreate` migration is already in the repository (`Migrations/`). Apply it to create the `Events` and `Registrations` tables in the `eventregistration` database:
+The migrations are already in the repository (`Migrations/`). Applying them creates the `Events` and `Registrations` tables in the `eventregistration` database and seeds 20 sample programming and AI events across Slovenia (capacity 10 to 150):
 
 ```
 dotnet ef database update --project EventRegistration.Api
 ```
+
+The migrations are:
+
+- `InitialCreate`: creates the schema.
+- `SeedEvents`: inserts the sample events with SQL. Venues and addresses are illustrative. Rolling the migration back (`dotnet ef database update InitialCreate --project EventRegistration.Api`) deletes those events, and any registrations for them (cascade delete).
 
 For reference, the initial migration was created with:
 
