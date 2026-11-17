@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventRegistration.Api.Tests;
 
+[Trait("Category", "Unit")]
 public class RegistrationServiceTests
 {
     private static readonly DateTimeOffset Now = new(2026, 11, 17, 12, 0, 0, TimeSpan.Zero);

@@ -5,6 +5,7 @@ using EventRegistration.Api.Models;
 
 namespace EventRegistration.Api.Tests;
 
+[Trait("Category", "Integration")]
 public class EventsApiTests
 {
     private static (ApiFactory Factory, HttpClient Client) Create()

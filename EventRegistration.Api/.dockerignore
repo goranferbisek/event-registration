@@ -1,0 +1,14 @@
+**/bin
+**/obj
+**/.idea
+**/.vs
+**/*.user
+**/*.userosscache
+**/*.suo
+**/TestResults
+**/*.trx
+**/*.coverage
+**/*.log
+.git
+Dockerfile
+.dockerignore

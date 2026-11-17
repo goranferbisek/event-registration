@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: eventregistration
+      POSTGRES_PASSWORD: devPassword
+      POSTGRES_DB: eventregistration
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eventregistration -d eventregistration"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  migrate:
+    build:
+      context: ./EventRegistration.Api
+      target: migrator
+    command:
+      - --connection
+      - "Host=db;Port=5432;Database=eventregistration;Username=eventregistration;Password=devPassword"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: ./EventRegistration.Api
+      target: api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=eventregistration;Username=eventregistration;Password=devPassword"
+      Cors__AllowedOrigins__0: http://localhost:5173
+    ports:
+      - "5122:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:5122
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+  tests:
+    build:
+      context: ./EventRegistration.Api
+      target: test
+    profiles: ["test"]
+
+volumes:
+  pgdata:
