@@ -23,12 +23,3 @@ ENV ASPNETCORE_HTTP_PORTS=8080
 EXPOSE 8080
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "EventRegistration.Api.dll"]
-
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS test
-WORKDIR /src
-COPY EventRegistration.Api/EventRegistration.Api.csproj EventRegistration.Api/
-COPY EventRegistration.Api.Tests/EventRegistration.Api.Tests.csproj EventRegistration.Api.Tests/
-RUN dotnet restore EventRegistration.Api.Tests/EventRegistration.Api.Tests.csproj
-COPY . .
-RUN dotnet build EventRegistration.Api.Tests/EventRegistration.Api.Tests.csproj --no-restore
-ENTRYPOINT ["dotnet", "test", "EventRegistration.Api.Tests/EventRegistration.Api.Tests.csproj", "--no-build"]

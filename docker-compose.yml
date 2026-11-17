@@ -50,11 +50,5 @@ services:
     depends_on:
       - api
 
-  tests:
-    build:
-      context: ./EventRegistration.Api
-      target: test
-    profiles: ["test"]
-
 volumes:
   pgdata:
