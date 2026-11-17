@@ -10,6 +10,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<EventRegistration.Api.Services.IRegistrationService, EventRegistration.Api.Services.RegistrationService>();
 
 var app = builder.Build();
 
